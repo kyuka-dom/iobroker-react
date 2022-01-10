@@ -13,8 +13,8 @@ export interface SelectIdProps {
 	dialogName: string;
 	themeType: string;
 	socket: any;
-	selectIdValue: string | string[] | undefined;
-	onChange: (value: any) => void;
+	selectIdValue?: string | string[] | undefined;
+	onChange?: (value: any) => void;
 	onClose: () => void;
 }
 
