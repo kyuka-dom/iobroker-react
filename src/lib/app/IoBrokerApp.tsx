@@ -150,7 +150,6 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 	const [selectIdState, setSelectIdState] = React.useState<SelectIdState>({
 		isOpen: false,
 		dialogName: "",
-		classes: "",
 		onClose: () => {},
 		onOk: () => {},
 		selected: "",
@@ -183,16 +182,16 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 
 	const showSelectId: ShowSelectId = (
 		dialogName: string, // where to store settings in localStorage
-		classes: object,
 		onClose: () => void,
 		onOk: (value: any) => void,
 		selected: string | string[] | undefined,
-		notEditable?: boolean,
 		title?: string,
 		lang?: string,
 		multiSelect?: boolean,
 		types?: string[], // optional ['state', 'instance', 'channel']
 		columns?: string[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+		notEditable?: boolean,
+		classes?: object,
 		foldersFirst?: boolean,
 		customFilter?: any, // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
 		statesOnly?: boolean,
@@ -206,16 +205,16 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 		setSelectIdState({
 			isOpen: true,
 			dialogName,
-			classes,
 			onClose,
 			onOk,
 			selected,
-			notEditable,
 			title,
 			lang,
 			multiSelect,
 			types,
 			columns,
+			notEditable,
+			classes,
 			foldersFirst,
 			customFilter,
 			statesOnly,

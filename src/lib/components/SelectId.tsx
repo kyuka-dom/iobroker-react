@@ -22,16 +22,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export type ShowSelectId = (
 	dialogName: string, // where to store settings in localStorage
-	classes: object,
+
 	onClose: () => void,
 	onOk: (value: any) => void,
 	selected: string | string[] | undefined,
-	notEditable?: boolean,
 	title?: string,
 	lang?: string,
 	multiSelect?: boolean,
 	types?: string[], // optional ['state', 'instance', 'channel']
 	columns?: string[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+	notEditable?: boolean,
+	classes?: object,
 	foldersFirst?: boolean,
 	customFilter?: any, // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
 	statesOnly?: boolean,
@@ -46,7 +47,7 @@ export type ShowSelectId = (
 export interface SelectIdProps {
 	isOpen: boolean;
 	dialogName: string; // where to store settings in localStorage
-	classes: object;
+	classes?: object;
 	onClose: () => void;
 	onOk: (value: any) => void;
 	selected: string | string[] | undefined;
@@ -70,16 +71,16 @@ export interface SelectIdProps {
 export interface SelectIdState {
 	isOpen: boolean;
 	dialogName: string; // where to store settings in localStorage
-	classes: object;
 	onClose: () => void;
 	onOk: (value: any) => void;
 	selected: string | string[] | undefined;
-	notEditable?: boolean;
 	title?: string;
 	lang?: string;
 	multiSelect?: boolean;
 	types?: string[]; // optional ['state', 'instance', 'channel']
 	columns?: string[]; // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+	classes?: object;
+	notEditable?: boolean;
 	foldersFirst?: boolean;
 	customFilter?: any; // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
 	statesOnly?: boolean;
@@ -150,6 +151,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	const { translate: _, language } = useI18n();
 	const [selected, setSelected] = useStateCallback(props.selected || []);
 	const [name, setName] = React.useState<string>("");
+	const [classes, setClasses] = React.useState(props.classes || styles(themeName));
 
 
 
@@ -195,7 +197,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 		if (selected.length === 1) {
 			title = [
 				<span key="selected">{_("ra_Selected")} </span>,
-				<span key="id" className={props.classes.headerID}>
+				<span key="id" className={classes.headerID}>
 						{(name || selected) +
 							(name
 								? " [" + selected + "]"
@@ -205,7 +207,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 		} else {
 			title = [
 				<span key="selected">{_("ra_Selected")} </span>,
-				<span key="id" className={props.classes.headerID}>
+				<span key="id" className={classes.headerID}>
 						{_("%s items", selected.length)}
 					</span>,
 			];
@@ -221,8 +223,8 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			disableEscapeKeyDown
 			classes={{
 				paper: Utils.clsx(
-					props.classes.dialog,
-					props.classes.dialogMobile,
+					classes.dialog,
+					classes.dialogMobile,
 				),
 			}}
 			fullWidth={true}
@@ -231,14 +233,14 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 		>
 			<DialogTitle
 				id="selectid-dialog-title"
-				classes={{ root: props.classes.titleRoot }}
+				classes={{ root: classes.titleRoot }}
 			>
 				{title}
 			</DialogTitle>
 			<DialogContent
 				className={Utils.clsx(
-					props.classes.content,
-					props.classes.contentMobile,
+					classes.content,
+					classes.contentMobile,
 				)}
 			>
 				<ObjectBrowser
@@ -276,7 +278,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 							: props.notEditable
 					}
 					name={name}
-					themeName={props.themeName}
+					themeName={themeName}
 					themeType={props.themeType}
 					customFilter={props.customFilter}
 					onFilterChanged={(filterConfig) => {
