@@ -149,6 +149,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	}
 
 	function handleOk() {
+		console.log("handleOk", propos.multiSelect, selected);
 		props.onOk(props.multiSelect ? selected : selected[0] || "");
 		props.onClose();
 	}
@@ -243,6 +244,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 						);
 					}}
 					onSelect={(selected, name, isDouble) => {
+						console.log(selected, name, isDouble);
 						if (
 							JSON.stringify(selected) !==
 							JSON.stringify(selected)
