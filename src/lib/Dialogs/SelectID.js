@@ -17,7 +17,7 @@ import IconCancel from "@material-ui/icons/Cancel";
 import IconOk from "@material-ui/icons/Check";
 import PropTypes from "prop-types";
 import React from "react";
-import I18n from "../i18n";
+// import I18n from "../i18n";
 
 const styles = (theme) => ({
 	headerID: {
@@ -84,6 +84,7 @@ class SelectID extends React.Component {
 		super(props);
 		this.dialogName = this.props.dialogName || "default";
 		this.dialogName = "SelectID." + this.dialogName;
+		this._ = this.props.t;
 
 		this.filters = window.localStorage.getItem(this.dialogName) || "{}";
 
@@ -125,7 +126,7 @@ class SelectID extends React.Component {
 		if (this.state.name || this.state.selected.length) {
 			if (this.state.selected.length === 1) {
 				title = [
-					<span key="selected">{I18n.t("ra_Selected")} </span>,
+					<span key="selected">{this._("ra_Selected")} </span>,
 					<span key="id" className={this.props.classes.headerID}>
 						{(this.state.name || this.state.selected) +
 							(this.state.name
@@ -135,14 +136,14 @@ class SelectID extends React.Component {
 				];
 			} else {
 				title = [
-					<span key="selected">{I18n.t("ra_Selected")} </span>,
+					<span key="selected">{this._("ra_Selected")} </span>,
 					<span key="id" className={this.props.classes.headerID}>
-						{I18n.t("%s items", this.state.selected.length)}
+						{this._("%s items", this.state.selected.length)}
 					</span>,
 				];
 			}
 		} else {
-			title = this.props.title || I18n.t("ra_Please select object ID...");
+			title = this.props.title || this._("ra_Please select object ID...");
 		}
 
 		return (
@@ -196,8 +197,8 @@ class SelectID extends React.Component {
 							]
 						}
 						types={this.props.types || ["state"]}
-						t={I18n.t}
-						lang={this.props.lang || I18n.getLanguage()}
+						t={this._}
+						lang={this.props.lang}
 						socket={this.props.socket}
 						selected={this.state.selected}
 						multiSelect={this.props.multiSelect}
@@ -241,14 +242,14 @@ class SelectID extends React.Component {
 						disabled={!this.state.selected.length}
 						color="primary"
 					>
-						{this.props.ok || I18n.t("ra_Ok")}
+						{this.props.ok || this._("ra_Ok")}
 					</Button>
 					<Button
 						variant="contained"
 						onClick={() => this.handleCancel()}
 						startIcon={<IconCancel />}
 					>
-						{this.props.cancel || I18n.t("ra_Cancel")}
+						{this.props.cancel || this._("ra_Cancel")}
 					</Button>
 				</DialogActions>
 			</Dialog>
@@ -259,6 +260,7 @@ class SelectID extends React.Component {
 SelectID.propTypes = {
 	dialogName: PropTypes.string, // where to store settings in localStorage
 	classes: PropTypes.object,
+	t: PropTypes.func,
 	onClose: PropTypes.func,
 	notEditable: PropTypes.bool,
 	onOk: PropTypes.func.isRequired,

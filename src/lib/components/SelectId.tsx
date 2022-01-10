@@ -4,7 +4,7 @@ import type {
 } from "@iobroker/adapter-react/Components/types";
 import * as React from "react";
 import "regenerator-runtime/runtime";
-import { useConnection, useIoBrokerTheme } from "../../hooks";
+import { useConnection, useI18n, useIoBrokerTheme } from "../../hooks";
 import DialogSelectID from "../Dialogs/SelectID";
 
 export type ShowSelectId = (
@@ -45,6 +45,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 
 	const [themeName, setTheme] = useIoBrokerTheme();
 	const connection: any = useConnection();
+	const { translate: _, language } = useI18n();
 
 	function handleClose() {
 		props.onClose();
@@ -59,6 +60,8 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			imagePrefix="../.."
 			dialogName={props.dialogName}
 			themeName={themeName}
+			t={_}
+			lang={language}
 			socket={connection}
 			statesOnly={true}
 			selected={props.selectIdValue}
