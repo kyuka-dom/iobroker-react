@@ -39,7 +39,7 @@
     "watch": "npm run build -- --watch",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "docsify serve docs",
+    "docs": "docsify serve docs"
   },
   "dependencies": {
     "@iobroker/socket-client": "1.0.8"

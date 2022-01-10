@@ -17,7 +17,6 @@ import { useConnection, useI18n, useIoBrokerTheme } from "../../hooks";
 
 export type ShowSelectId = (
 	dialogName: string, // where to store settings in localStorage
-
 	onClose: () => void,
 	onOk: (value: any) => void,
 	selected: string | string[] | undefined,
