@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box } from "@material-ui/core";
 import * as React from "react";
 // import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
 import "regenerator-runtime/runtime";
