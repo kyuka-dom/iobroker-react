@@ -35,12 +35,11 @@
     "build/**/*.{js,d.ts,map,json}"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && npm run copy-js-files",
+    "build": "tsc -p tsconfig.build.json",
     "watch": "npm run build -- --watch",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "docsify serve docs",
-    "copy-js-files": "cp -R ./src/lib/Dialogs ./build/lib"
   },
   "dependencies": {
     "@iobroker/socket-client": "1.0.8"

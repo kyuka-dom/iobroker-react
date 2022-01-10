@@ -1,24 +1,19 @@
+import ObjectBrowser from "@iobroker/adapter-react/Components/ObjectBrowser";
 import type {
 	ObjectBrowserColumn,
 	ObjectBrowserType,
 } from "@iobroker/adapter-react/Components/types";
-import * as React from "react";
-
-import ObjectBrowser from "@iobroker/adapter-react/Components/ObjectBrowser";
 import Utils from "@iobroker/adapter-react/Components/Utils";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import withStyles from "@material-ui/core/styles/withStyles";
 import IconCancel from "@material-ui/icons/Cancel";
 import IconOk from "@material-ui/icons/Check";
-
+import * as React from "react";
 import "regenerator-runtime/runtime";
 import { useConnection, useI18n, useIoBrokerTheme } from "../../hooks";
-import DialogSelectID from "../Dialogs/SelectID";
-import { useCallback, useEffect, useRef, useState } from "react";
 
 export type ShowSelectId = (
 	dialogName: string, // where to store settings in localStorage
@@ -27,12 +22,12 @@ export type ShowSelectId = (
 	onOk: (value: any) => void,
 	selected: string | string[] | undefined,
 	title?: string,
-	lang?: string,
+	lang?: ioBroker.Languages,
 	multiSelect?: boolean,
-	types?: string[], // optional ['state', 'instance', 'channel']
-	columns?: string[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+	types?: ObjectBrowserType[], // optional ['state', 'instance', 'channel']
+	columns?: ObjectBrowserColumn[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
 	notEditable?: boolean,
-	classes?: object,
+	classes?: any,
 	foldersFirst?: boolean,
 	customFilter?: any, // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
 	statesOnly?: boolean,
@@ -47,16 +42,16 @@ export type ShowSelectId = (
 export interface SelectIdProps {
 	isOpen: boolean;
 	dialogName: string; // where to store settings in localStorage
-	classes?: object;
+	classes?: any;
 	onClose: () => void;
 	onOk: (value: any) => void;
 	selected: string | string[] | undefined;
 	notEditable?: boolean;
 	title?: string;
-	lang?: string;
+	lang?: ioBroker.Languages;
 	multiSelect?: boolean;
-	types?: string[]; // optional ['state', 'instance', 'channel']
-	columns?: string[]; // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+	types?: ObjectBrowserType[]; // optional ['state', 'instance', 'channel']
+	columns?: ObjectBrowserColumn[]; // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
 	foldersFirst?: boolean;
 	customFilter?: any; // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
 	statesOnly?: boolean;
@@ -75,11 +70,11 @@ export interface SelectIdState {
 	onOk: (value: any) => void;
 	selected: string | string[] | undefined;
 	title?: string;
-	lang?: string;
+	lang?: ioBroker.Languages;
 	multiSelect?: boolean;
-	types?: string[]; // optional ['state', 'instance', 'channel']
-	columns?: string[]; // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
-	classes?: object;
+	types?: ObjectBrowserType[]; // optional ['state', 'instance', 'channel']
+	columns?: ObjectBrowserColumn[]; // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+	classes?: any;
 	notEditable?: boolean;
 	foldersFirst?: boolean;
 	customFilter?: any; // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
@@ -92,7 +87,7 @@ export interface SelectIdState {
 	filterFunc?: any; // function to filter out all unneccessary objects. It cannot be used together with "types"
 }
 
-const styles = (theme) => ({
+const styles = (theme: string) => ({
 	headerID: {
 		fontWeight: "bold",
 		fontStyle: "italic",
@@ -124,41 +119,20 @@ const styles = (theme) => ({
 });
 
 export const SelectId: React.FC<SelectIdProps> = (props) => {
-
-	function useStateCallback(initialState) {
-		const [state, setState] = useState(initialState);
-		const cbRef = useRef(null); // init mutable ref container for callbacks
-
-		const setStateCallback = useCallback((state, cb) => {
-			cbRef.current = cb; // store current, passed callback in ref
-			setState(state);
-		}, []); // keep object reference stable, exactly like `useState`
-
-		useEffect(() => {
-			// cb.current is `null` on initial render,
-			// so we only invoke callback on state *updates*
-			if (cbRef.current) {
-				cbRef.current(state);
-				cbRef.current = null; // reset callback after execution
-			}
-		}, [state]);
-
-		return [state, setStateCallback];
-	}
-
 	const [themeName, setTheme] = useIoBrokerTheme();
 	const connection: any = useConnection();
 	const { translate: _, language } = useI18n();
-	const [selected, setSelected] = useStateCallback(props.selected || []);
+	const [selected, setSelected] = React.useState(props.selected || []);
 	const [name, setName] = React.useState<string>("");
-	const [classes, setClasses] = React.useState(props.classes || styles(themeName));
-
-
+	const [classes, setClasses] = React.useState(
+		props.classes || styles(themeName),
+	);
 
 	let dialogName = props.dialogName || "default";
-	dialogName = "SelectID." + dialogName;
+	dialogName = `SelectID.${dialogName}`;
 
-	let filters = window.localStorage.getItem(dialogName) || "{}";
+	let filters: string | undefined =
+		window.localStorage.getItem(dialogName) || "{}";
 
 	try {
 		filters = JSON.parse(filters);
@@ -169,19 +143,14 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	if (typeof selected !== "object") {
 		setSelected([selected]);
 	}
-	setSelected(selected.filter((id) => id));
+	// setSelected(selected.filter((id) => id));
 
 	function handleCancel() {
 		props.onClose();
 	}
 
 	function handleOk() {
-		props.onOk(
-			props.multiSelect
-				? selected
-				: selected[0] || "",
-			name,
-		);
+		props.onOk(props.multiSelect ? selected : selected[0] || "");
 		props.onClose();
 	}
 
@@ -191,25 +160,22 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 
 	if (!props.isOpen) return null;
 
-
 	let title;
 	if (name || selected.length) {
 		if (selected.length === 1) {
 			title = [
 				<span key="selected">{_("ra_Selected")} </span>,
 				<span key="id" className={classes.headerID}>
-						{(name || selected) +
-							(name
-								? " [" + selected + "]"
-								: "")}
-					</span>,
+					{/* eslint-disable-next-line @typescript-eslint/restrict-template-expressions */}
+					{(name || selected) + (name ? ` [${selected}]` : "")}
+				</span>,
 			];
 		} else {
 			title = [
 				<span key="selected">{_("ra_Selected")} </span>,
 				<span key="id" className={classes.headerID}>
-						{_("%s items", selected.length)}
-					</span>,
+					{_("%s items", String(selected.length))}
+				</span>,
 			];
 		}
 	} else {
@@ -222,10 +188,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			maxWidth={false}
 			disableEscapeKeyDown
 			classes={{
-				paper: Utils.clsx(
-					classes.dialog,
-					classes.dialogMobile,
-				),
+				paper: Utils.clsx(classes.dialog, classes.dialogMobile),
 			}}
 			fullWidth={true}
 			open={true}
@@ -238,24 +201,17 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 				{title}
 			</DialogTitle>
 			<DialogContent
-				className={Utils.clsx(
-					classes.content,
-					classes.contentMobile,
-				)}
+				className={Utils.clsx(classes.content, classes.contentMobile)}
 			>
 				<ObjectBrowser
 					foldersFirst={props.foldersFirst}
-					imagePrefix={
-						props.imagePrefix || props.prefix
-					} // prefix is for back compatibility
-					defaultFilters={filters}
+					imagePrefix={props.imagePrefix} // prefix is for back compatibility
 					dialogName={dialogName}
 					showExpertButton={
 						props.showExpertButton !== undefined
 							? props.showExpertButton
 							: true
 					}
-					style={{ width: "100%", height: "100%" }}
 					columns={
 						props.columns || [
 							"name",
@@ -277,7 +233,6 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 							? true
 							: props.notEditable
 					}
-					name={name}
 					themeName={themeName}
 					themeType={props.themeType}
 					customFilter={props.customFilter}
@@ -293,12 +248,16 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 							JSON.stringify(selected) !==
 							JSON.stringify(selected)
 						) {
-							setSelected(name, () => isDouble && handleOk())
+							setSelected(name);
+							if (isDouble) {
+								handleOk();
+							}
 						} else if (isDouble) {
 							handleOk();
 						}
 					}}
-					filterFunc={props.filterFunc}
+					classes={classes}
+					title={name}
 				/>
 			</DialogContent>
 			<DialogActions>

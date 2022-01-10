@@ -186,12 +186,12 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 		onOk: (value: any) => void,
 		selected: string | string[] | undefined,
 		title?: string,
-		lang?: string,
+		lang?: ioBroker.Languages,
 		multiSelect?: boolean,
-		types?: string[], // optional ['state', 'instance', 'channel']
-		columns?: string[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+		types?: ObjectBrowserType[], // optional ['state', 'instance', 'channel']
+		columns?: ObjectBrowserColumn[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
 		notEditable?: boolean,
-		classes?: object,
+		classes?: any,
 		foldersFirst?: boolean,
 		customFilter?: any, // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
 		statesOnly?: boolean,
@@ -223,7 +223,7 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 			ok,
 			themeType,
 			showExpertButton,
-			filterFunc
+			filterFunc,
 		});
 	};
 
