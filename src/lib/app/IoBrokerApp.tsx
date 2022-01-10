@@ -244,6 +244,7 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 										showNotification,
 										showModal,
 										hideModal,
+										showSelectId,
 									}}
 								>
 									<ExpertModeContext.Provider
