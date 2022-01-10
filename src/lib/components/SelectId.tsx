@@ -243,13 +243,14 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 							JSON.stringify(filterConfig),
 						);
 					}}
-					onSelect={(selected, name, isDouble) => {
-						console.log(selected, name, isDouble);
+					onSelect={(selected, newName, isDouble) => {
+						console.log(selected, newName, isDouble);
 						if (
 							JSON.stringify(selected) !==
 							JSON.stringify(selected)
 						) {
-							setSelected(name);
+							console.log("running setSelected", newName);
+							setSelected(newName);
 							if (isDouble) {
 								handleOk();
 							}
@@ -266,7 +267,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 					variant="contained"
 					onClick={() => handleOk()}
 					startIcon={<IconOk />}
-					disabled={!selected.length}
+					disabled={selected ? true : false}
 					color="primary"
 				>
 					{props.ok || _("ra_Ok")}
