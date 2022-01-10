@@ -148,7 +148,10 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 		dialogName: "",
 		selectIdValue: "",
 		onChange: () => {},
+		title: "",
+		multiSelect: false,
 	});
+
 	const [modalState, setModalState] = React.useState<ModalState>({
 		isOpen: false,
 		title: "",
@@ -178,12 +181,18 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 		dialogName: string,
 		selectIdValue: string | string[] | undefined,
 		onChange: (value: any) => void,
+		title?: string,
+		multiSelect?: boolean,
+		lang?: ioBroker.Languages,
 	) => {
 		setSelectIdState({
 			isOpen: true,
 			dialogName,
 			selectIdValue,
 			onChange,
+			title,
+			multiSelect,
+			lang,
 		});
 	};
 

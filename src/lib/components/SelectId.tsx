@@ -7,6 +7,9 @@ export type ShowSelectId = (
 	dialogName: string,
 	selectIdValue: string | string[] | undefined,
 	onChange: (value: any) => void,
+	title?: string,
+	multiSelect?: boolean,
+	lang?: ioBroker.Languages,
 ) => void;
 
 export interface SelectIdProps {
@@ -15,6 +18,9 @@ export interface SelectIdProps {
 	selectIdValue: string | string[] | undefined;
 	onChange: (value: any) => void;
 	onClose: () => void;
+	title?: string;
+	multiSelect?: boolean;
+	lang?: ioBroker.Languages;
 }
 
 export interface SelectIdState {
@@ -22,10 +28,13 @@ export interface SelectIdState {
 	dialogName: string;
 	selectIdValue: string | string[] | undefined;
 	onChange: (value: any) => void;
+	title?: string;
+	multiSelect?: boolean;
+	lang?: ioBroker.Languages;
 }
 
 export const SelectId: React.FC<SelectIdProps> = (props) => {
-	console.log("RUNNING SELECTIDDIALOG", props);
+	// console.log("RUNNING SELECTIDDIALOG", props);
 
 	const [themeName, setTheme] = useIoBrokerTheme();
 	const connection: any = useConnection();
@@ -38,18 +47,17 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	return (
 		<DialogSelectID
 			key="tableSelect"
+			title={props.title}
+			multiSelect={props.multiSelect}
 			imagePrefix="../.."
 			dialogName={props.dialogName}
+			lang={props.lang}
 			themeType={themeName}
 			socket={connection}
 			statesOnly={true}
 			selected={props.selectIdValue}
 			onClose={handleClose}
 			onOk={(selected: string | string[] | undefined) => {
-				/*setState({ showSelectId: false });
-				this.props.onChange(selected);
-				this.selectIdValue = selected;*/
-				console.log("onOk", selected);
 				props.onChange(selected);
 			}}
 		/>
