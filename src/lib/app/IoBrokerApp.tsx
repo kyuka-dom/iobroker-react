@@ -12,6 +12,8 @@ import type {
 	ShowNotification,
 } from "../components/Notification";
 import { Notification } from "../components/Notification";
+import type { SelectIdState, ShowSelectId } from "../components/SelectId";
+import { SelectId } from "../components/SelectId";
 import { ConnectionContext } from "../hooks/useConnection";
 import { DialogsContext } from "../hooks/useDialogs";
 import { ExpertModeContext } from "../hooks/useExpertMode";
@@ -140,6 +142,10 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 			message: "",
 			variant: "info",
 		});
+
+	const [selectIdState, setSelectIdState] = React.useState<SelectIdState>({
+		isOpen: false,
+	});
 	const [modalState, setModalState] = React.useState<ModalState>({
 		isOpen: false,
 		title: "",
@@ -163,6 +169,19 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 	};
 	const hideNotification = () => {
 		setNotificationState({ ...notificationState, isOpen: false });
+	};
+
+	const showSelectId: ShowSelectId = (dialogName, themeType, connection) => {
+		setSelectIdState({
+			isOpen: true,
+			dialogName,
+			themeType,
+			connection,
+		});
+	};
+
+	const hideSelectId = () => {
+		setSelectIdState({ ...selectIdState, isOpen: false });
 	};
 
 	const hideModal = () => {
@@ -233,6 +252,10 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 										<Notification
 											{...notificationState}
 											onClose={hideNotification}
+										/>
+										<SelectId
+											{...selectIdState}
+											onClose={hideSelectId}
 										/>
 										<ModalDialog {...modalState} />
 									</ExpertModeContext.Provider>
