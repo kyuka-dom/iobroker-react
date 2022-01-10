@@ -149,7 +149,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	}
 
 	function handleOk() {
-		console.log("handleOk", propos.multiSelect, selected);
+		console.log("handleOk", props.multiSelect, selected);
 		props.onOk(props.multiSelect ? selected : selected[0] || "");
 		props.onClose();
 	}
