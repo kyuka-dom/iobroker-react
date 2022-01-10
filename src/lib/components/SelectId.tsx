@@ -1,3 +1,7 @@
+import type {
+	ObjectBrowserColumn,
+	ObjectBrowserType,
+} from "@iobroker/adapter-react/Components/types";
 import DialogSelectID from "@iobroker/adapter-react/Dialogs/SelectID";
 import * as React from "react";
 import "regenerator-runtime/runtime";
@@ -9,7 +13,8 @@ export type ShowSelectId = (
 	onChange: (value: any) => void,
 	title?: string,
 	multiSelect?: boolean,
-	lang?: ioBroker.Languages,
+	columns?: ObjectBrowserColumn[],
+	types?: ObjectBrowserType[],
 ) => void;
 
 export interface SelectIdProps {
@@ -20,7 +25,8 @@ export interface SelectIdProps {
 	onClose: () => void;
 	title?: string;
 	multiSelect?: boolean;
-	lang?: ioBroker.Languages;
+	columns?: ObjectBrowserColumn[];
+	types?: ObjectBrowserType[];
 }
 
 export interface SelectIdState {
@@ -30,7 +36,8 @@ export interface SelectIdState {
 	onChange: (value: any) => void;
 	title?: string;
 	multiSelect?: boolean;
-	lang?: ioBroker.Languages;
+	columns?: ObjectBrowserColumn[];
+	types?: ObjectBrowserType[];
 }
 
 export const SelectId: React.FC<SelectIdProps> = (props) => {
@@ -51,8 +58,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			multiSelect={props.multiSelect}
 			imagePrefix="../.."
 			dialogName={props.dialogName}
-			lang={props.lang}
-			themeType={themeName}
+			themeName={themeName}
 			socket={connection}
 			statesOnly={true}
 			selected={props.selectIdValue}

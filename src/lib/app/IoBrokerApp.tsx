@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import {
+	ObjectBrowserColumn,
+	ObjectBrowserType,
+} from "@iobroker/adapter-react/Components/types";
 import { Connection, ConnectionProps } from "@iobroker/socket-client";
 import { ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -183,7 +187,8 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 		onChange: (value: any) => void,
 		title?: string,
 		multiSelect?: boolean,
-		lang?: ioBroker.Languages,
+		columns?: ObjectBrowserColumn[],
+		types?: ObjectBrowserType[],
 	) => {
 		setSelectIdState({
 			isOpen: true,
@@ -192,7 +197,8 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 			onChange,
 			title,
 			multiSelect,
-			lang,
+			columns,
+			types,
 		});
 	};
 
