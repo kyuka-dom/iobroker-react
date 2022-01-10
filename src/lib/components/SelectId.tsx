@@ -6,13 +6,13 @@ import "regenerator-runtime/runtime";
 export type ShowSelectId = (
 	dialogName: string,
 	themeType: string,
-	socket: any,
+	connection: any,
 ) => void;
 
 export interface SelectIdProps {
 	dialogName: string;
 	themeType: string;
-	socket: any;
+	connection: any;
 	selectIdValue?: string | string[] | undefined;
 	onChange?: (value: any) => void;
 	onClose: () => void;
