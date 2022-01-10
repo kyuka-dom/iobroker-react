@@ -150,10 +150,10 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 	const [selectIdState, setSelectIdState] = React.useState<SelectIdState>({
 		isOpen: false,
 		dialogName: "",
-		selectIdValue: "",
-		onChange: () => {},
-		title: "",
-		multiSelect: false,
+		classes: "",
+		onClose: () => {},
+		onOk: () => {},
+		selected: "",
 	});
 
 	const [modalState, setModalState] = React.useState<ModalState>({
@@ -182,23 +182,49 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 	};
 
 	const showSelectId: ShowSelectId = (
-		dialogName: string,
-		selectIdValue: string | string[] | undefined,
-		onChange: (value: any) => void,
+		dialogName: string, // where to store settings in localStorage
+		classes: object,
+		onClose: () => void,
+		onOk: (value: any) => void,
+		selected: string | string[] | undefined,
+		notEditable?: boolean,
 		title?: string,
+		lang?: string,
 		multiSelect?: boolean,
-		columns?: ObjectBrowserColumn[],
-		types?: ObjectBrowserType[],
+		types?: string[], // optional ['state', 'instance', 'channel']
+		columns?: string[], // optional ['name', 'type', 'role', 'room', 'func', 'val', 'buttons']
+		foldersFirst?: boolean,
+		customFilter?: any, // optional {common: {custom: true}} or {common: {custom: 'sql.0'}}
+		statesOnly?: boolean,
+		cancel?: string,
+		imagePrefix?: string,
+		ok?: string,
+		themeType?: string,
+		showExpertButton?: boolean,
+		filterFunc?: any, // function to filter out all unneccessary objects. It cannot be used together with "types"
 	) => {
 		setSelectIdState({
 			isOpen: true,
 			dialogName,
-			selectIdValue,
-			onChange,
+			classes,
+			onClose,
+			onOk,
+			selected,
+			notEditable,
 			title,
+			lang,
 			multiSelect,
-			columns,
 			types,
+			columns,
+			foldersFirst,
+			customFilter,
+			statesOnly,
+			cancel,
+			imagePrefix,
+			ok,
+			themeType,
+			showExpertButton,
+			filterFunc
 		});
 	};
 
