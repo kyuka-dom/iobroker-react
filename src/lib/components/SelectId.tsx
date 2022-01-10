@@ -1,32 +1,34 @@
 import DialogSelectID from "@iobroker/adapter-react/Dialogs/SelectID";
 import * as React from "react";
 import "regenerator-runtime/runtime";
+import { useConnection, useIoBrokerTheme } from "../../hooks";
 
 export type ShowSelectId = (
 	dialogName: string,
-	themeType: string,
-	connection: any,
+	selectIdValue: string | string[] | undefined,
+	onChange: (value: any) => void,
 ) => void;
 
 export interface SelectIdProps {
 	dialogName: string;
 	isOpen: boolean;
-	themeType: string;
-	connection: any;
-	selectIdValue?: string | string[] | undefined;
-	onChange?: (value: any) => void;
+	selectIdValue: string | string[] | undefined;
+	onChange: (value: any) => void;
 	onClose: () => void;
 }
 
 export interface SelectIdState {
 	isOpen: boolean;
 	dialogName: string;
-	themeType: string;
-	connection: any;
+	selectIdValue: string | string[] | undefined;
+	onChange: (value: any) => void;
 }
 
 export const SelectId: React.FC<SelectIdProps> = (props) => {
 	console.log("RUNNING SELECTIDDIALOG", props);
+
+	const [themeName, setTheme] = useIoBrokerTheme();
+	const connection: any = useConnection();
 
 	function handleClose() {
 		props.onClose();
@@ -38,8 +40,8 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			key="tableSelect"
 			imagePrefix="../.."
 			dialogName={props.dialogName}
-			themeType={props.themeType}
-			socket={props.connection}
+			themeType={themeName}
+			socket={connection}
 			statesOnly={true}
 			selected={props.selectIdValue}
 			onClose={handleClose}
@@ -48,6 +50,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 				this.props.onChange(selected);
 				this.selectIdValue = selected;*/
 				console.log("onOk", selected);
+				props.onChange(selected);
 			}}
 		/>
 	);

@@ -146,8 +146,8 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 	const [selectIdState, setSelectIdState] = React.useState<SelectIdState>({
 		isOpen: false,
 		dialogName: "",
-		themeType: "",
-		connection: null,
+		selectIdValue: "",
+		onChange: () => {},
 	});
 	const [modalState, setModalState] = React.useState<ModalState>({
 		isOpen: false,
@@ -174,12 +174,16 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 		setNotificationState({ ...notificationState, isOpen: false });
 	};
 
-	const showSelectId: ShowSelectId = (dialogName, themeType, connection) => {
+	const showSelectId: ShowSelectId = (
+		dialogName: string,
+		selectIdValue: string | string[] | undefined,
+		onChange: (value: any) => void,
+	) => {
 		setSelectIdState({
 			isOpen: true,
 			dialogName,
-			themeType,
-			connection,
+			selectIdValue,
+			onChange,
 		});
 	};
 
