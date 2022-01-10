@@ -10,6 +10,7 @@ export type ShowSelectId = (
 
 export interface SelectIdProps {
 	dialogName: string;
+	isOpen: boolean;
 	themeType: string;
 	connection: any;
 	selectIdValue?: string | string[] | undefined;
@@ -26,6 +27,12 @@ export interface SelectIdState {
 
 export const SelectId: React.FC<SelectIdProps> = (props) => {
 	console.log("RUNNING SELECTIDDIALOG", props);
+
+	function handleClose() {
+		props.onClose();
+	}
+
+	if (!props.isOpen) return null;
 	return (
 		<DialogSelectID
 			key="tableSelect"
@@ -35,7 +42,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			socket={props.connection}
 			statesOnly={true}
 			selected={props.selectIdValue}
-			onClose={() => console.log("onClose")}
+			onClose={handleClose}
 			onOk={(selected: string | string[] | undefined) => {
 				/*setState({ showSelectId: false });
 				this.props.onChange(selected);
