@@ -243,14 +243,15 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 							JSON.stringify(filterConfig),
 						);
 					}}
-					onSelect={(selected, newName, isDouble) => {
+					onSelect={(newSelected, newName, isDouble) => {
 						console.log(selected, newName, isDouble);
 						if (
-							JSON.stringify(selected) !==
+							JSON.stringify(newSelected) !==
 							JSON.stringify(selected)
 						) {
 							console.log("running setSelected", newName);
-							setSelected(newName);
+							setSelected(newSelected);
+							setName(newName);
 							if (isDouble) {
 								handleOk();
 							}
