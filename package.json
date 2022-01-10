@@ -39,7 +39,7 @@
     "watch": "npm run build -- --watch",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "docsify serve docs"
+    "docs": "docsify serve docs",
     "copy-js-files": "cp -R ./src/lib/Dialogs ./build/lib"
   },
   "dependencies": {
