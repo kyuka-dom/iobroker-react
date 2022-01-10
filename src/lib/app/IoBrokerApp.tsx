@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {
+import type {
 	ObjectBrowserColumn,
 	ObjectBrowserType,
 } from "@iobroker/adapter-react/Components/types";
