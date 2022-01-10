@@ -45,7 +45,6 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 
 	const [themeName, setTheme] = useIoBrokerTheme();
 	const connection: any = useConnection();
-	const { translate: _ } = useI18n();
 
 	function handleClose() {
 		props.onClose();
@@ -61,7 +60,6 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 			dialogName={props.dialogName}
 			themeName={themeName}
 			socket={connection}
-			t={_}
 			statesOnly={true}
 			selected={props.selectIdValue}
 			onClose={handleClose}
