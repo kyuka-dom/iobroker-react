@@ -244,7 +244,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 						);
 					}}
 					onSelect={(newSelected, newName, isDouble) => {
-						console.log(selected, newName, isDouble);
+						console.log(selected, newSelected, newName, isDouble);
 						if (
 							JSON.stringify(newSelected) !==
 							JSON.stringify(selected)
