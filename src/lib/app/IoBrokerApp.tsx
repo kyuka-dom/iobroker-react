@@ -145,6 +145,9 @@ export const IoBrokerApp: React.FC<IoBrokerAppProps> = (props) => {
 
 	const [selectIdState, setSelectIdState] = React.useState<SelectIdState>({
 		isOpen: false,
+		dialogName: "",
+		themeType: "",
+		connection: null,
 	});
 	const [modalState, setModalState] = React.useState<ModalState>({
 		isOpen: false,
