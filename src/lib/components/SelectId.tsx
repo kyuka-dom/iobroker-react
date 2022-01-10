@@ -1,6 +1,5 @@
-import { Box } from "@material-ui/core";
+import DialogSelectID from "@iobroker/adapter-react/Dialogs/SelectID";
 import * as React from "react";
-// import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
 import "regenerator-runtime/runtime";
 
 export type ShowSelectId = (
@@ -28,8 +27,21 @@ export interface SelectIdState {
 export const SelectId: React.FC<SelectIdProps> = (props) => {
 	console.log("RUNNING SELECTIDDIALOG", props);
 	return (
-		<Box>
-			<div>Gugus!!!</div>
-		</Box>
+		<DialogSelectID
+			key="tableSelect"
+			imagePrefix="../.."
+			dialogName={props.dialogName}
+			themeType={props.themeType}
+			socket={props.connection}
+			statesOnly={true}
+			selected={props.selectIdValue}
+			onClose={() => console.log("onClose")}
+			onOk={(selected: string | string[] | undefined) => {
+				/*setState({ showSelectId: false });
+				this.props.onChange(selected);
+				this.selectIdValue = selected;*/
+				console.log("onOk", selected);
+			}}
+		/>
 	);
 };
