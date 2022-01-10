@@ -149,7 +149,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	}
 
 	function handleOk() {
-		console.log("handleOk", props.multiSelect, selected, selected.length);
+		// console.log("handleOk", props.multiSelect, selected, selected.length);
 		props.onOk(props.multiSelect ? selected : selected[0] || "");
 		props.onClose();
 	}
@@ -244,12 +244,12 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 						);
 					}}
 					onSelect={(newSelected, newName, isDouble) => {
-						console.log(selected, newSelected, newName, isDouble);
+						// console.log(selected, newSelected, newName, isDouble);
 						if (
 							JSON.stringify(newSelected) !==
 							JSON.stringify(selected)
 						) {
-							console.log("running setSelected", newName);
+							// console.log("running setSelected", newName);
 							setSelected(newSelected);
 							setName(newName);
 							if (isDouble) {
@@ -268,7 +268,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 					variant="contained"
 					onClick={() => handleOk()}
 					startIcon={<IconOk />}
-					disabled={selected.length ? true : false}
+					disabled={selected.length ? false : true}
 					color="primary"
 				>
 					{props.ok || _("ra_Ok")}
