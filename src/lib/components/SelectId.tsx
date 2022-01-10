@@ -149,7 +149,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 	}
 
 	function handleOk() {
-		console.log("handleOk", props.multiSelect, selected);
+		console.log("handleOk", props.multiSelect, selected, selected.length);
 		props.onOk(props.multiSelect ? selected : selected[0] || "");
 		props.onClose();
 	}
@@ -268,7 +268,7 @@ export const SelectId: React.FC<SelectIdProps> = (props) => {
 					variant="contained"
 					onClick={() => handleOk()}
 					startIcon={<IconOk />}
-					disabled={selected ? true : false}
+					disabled={selected.length ? true : false}
 					color="primary"
 				>
 					{props.ok || _("ra_Ok")}
